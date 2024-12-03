@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:todo_app/app/screens/addtaskscreen.dart';
 import 'package:todo_app/app/screens/dashboard.dart';
+import 'package:todo_app/app/screens/forget_password.dart';
 import 'package:todo_app/app/screens/get_started_one.dart';
 import 'package:todo_app/app/screens/home_page.dart';
 import 'package:todo_app/app/screens/login_page.dart';
@@ -24,5 +25,6 @@ class AppPage{
     GetPage(name: '/addtask', page: () => AddTaskScreen(),transition: Transition.noTransition,),
     GetPage(name: '/profile', page: () => ProfileScreen(),transition: Transition.noTransition,),
     GetPage(name: '/myprofile', page: () => MyprofileScreen(),transition: Transition.noTransition,),
+    GetPage(name: '/forgetpass', page: () => ForgetPassword(),transition: Transition.noTransition,),
   ];
 }

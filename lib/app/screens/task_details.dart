@@ -29,7 +29,6 @@ class TaskDetailsScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Obx(() => Container(
-
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

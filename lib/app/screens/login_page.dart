@@ -157,6 +157,7 @@ class _LoginPageState extends State<LoginPage> {
                 alignment: Alignment.centerRight,
                 child: InkWell(
                   onTap: () {
+                    Get.toNamed('/forgetpass');
 
                   },
                   child: Text(

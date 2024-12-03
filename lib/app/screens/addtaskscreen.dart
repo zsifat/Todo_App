@@ -303,17 +303,15 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                             ),
                             TextField(
                               controller: titleController,
+                              autocorrect: false,
+                              enableSuggestions: false,
                               decoration: InputDecoration(
                                 hintText: 'Title here',
                                 hintStyle: TextStyle(
                                     color: Colors.grey.shade500,
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400),
-                                border: UnderlineInputBorder(
-                                    borderSide: BorderSide(width: 4)),
-                                enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: customcolors.secondColor)),
+                                border: InputBorder.none
                               ),
                               style: GoogleFonts.poppins(
                                 fontSize: 14,
@@ -412,17 +410,15 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                             ),
                             TextField(
                               controller: descController,
+                              autocorrect: false,
+                              enableSuggestions: false,
                               decoration: InputDecoration(
                                 hintText: 'Description here',
                                 hintStyle: TextStyle(
                                     color: Colors.grey.shade500,
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400),
-                                border: UnderlineInputBorder(
-                                    borderSide: BorderSide(width: 4)),
-                                enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: customcolors.secondColor)),
+                                border: InputBorder.none
                               ),
                               style: GoogleFonts.poppins(
                                 fontSize: 14,
@@ -454,18 +450,15 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                     Expanded(
                                       child: TextField(
                                         controller: todoControllers[index],
+                                        autocorrect: false,
+                                        enableSuggestions: false,
                                         decoration: InputDecoration(
                                           hintText: 'Add new to do',
                                           hintStyle: TextStyle(
                                               color: Colors.grey.shade500,
                                               fontSize: 14,
                                               fontWeight: FontWeight.w400),
-                                          border: UnderlineInputBorder(
-                                              borderSide: BorderSide(width: 4)),
-                                          enabledBorder: UnderlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: customcolors
-                                                      .secondColor)),
+                                          border: InputBorder.none
                                         ),
                                         style: GoogleFonts.poppins(
                                           fontSize: 14,

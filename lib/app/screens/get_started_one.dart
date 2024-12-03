@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -5,9 +6,17 @@ import 'package:todo_app/app/data/get_started_data.dart';
 import 'package:todo_app/app/ui_helper/colors.dart';
 import 'package:todo_app/app/ui_helper/widgets.dart';
 
+import '../controllers/daily_task_controller.dart';
+import '../controllers/task_controller.dart';
+import '../controllers/usercontroller.dart';
+
 class GetStartedScreen extends StatelessWidget {
   final int index;
   GetStartedScreen({super.key,required this.index});
+  final TaskController taskController = Get.find<TaskController>();
+  final DailyTasKController dailyTasKController =
+  Get.find<DailyTasKController>();
+  final UserController userController = Get.find<UserController>();
 
   var customColors = CustomColors();
   @override
@@ -20,7 +29,17 @@ class GetStartedScreen extends StatelessWidget {
         ),
         actions: [
           TextButton(
-              onPressed: () => Get.offNamed('/home'),
+              onPressed:() async{
+                final user=FirebaseAuth.instance.currentUser;
+                if(user!=null) {
+                  await userController.fetchData();
+                  taskController.updateTasksBasedOnUserData(userController.userData.value);
+                  dailyTasKController.updateDailyTasksBasedOnUserData(userController.userData.value);
+                  Get.offNamed('/home');
+                }else{
+                  Get.offNamed('/login');
+                }
+              },
               child: Text(
                 'skip',
                 style: GoogleFonts.poppins(
@@ -60,13 +79,22 @@ class GetStartedScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: InkWell(
-                onTap: () {
+                onTap: () async{
                   if(index==0){
                     Get.offNamed('/gssecond',);
                   }else if(index==1){
                     Get.offNamed('/gsthird');
                   }else{
-                    Get.offNamed('/login');
+                    final user=FirebaseAuth.instance.currentUser;
+                    if(user!=null) {
+                      await userController.fetchData();
+                      taskController.updateTasksBasedOnUserData(userController.userData.value);
+                      dailyTasKController.updateDailyTasksBasedOnUserData(userController.userData.value);
+                      Get.offNamed('/home');
+                    }else{
+                      Get.offNamed('/login');
+                    }
+
                   }
                 },
                 child: customButton(buttonText: 'Get Started',)),

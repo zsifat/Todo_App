@@ -7,6 +7,10 @@ import 'package:todo_app/app/services/authservice.dart';
 import 'package:todo_app/app/ui_helper/colors.dart';
 import 'package:todo_app/app/ui_helper/widgets.dart';
 
+import '../controllers/daily_task_controller.dart';
+import '../controllers/task_controller.dart';
+import '../controllers/usercontroller.dart';
+
 class SignupPage extends StatefulWidget{
   @override
   State<SignupPage> createState() => _SignupPageState();
@@ -46,6 +50,11 @@ class _SignupPageState extends State<SignupPage> {
     }
 
   }
+
+  final TaskController taskController = Get.find<TaskController>();
+  final DailyTasKController dailyTasKController =
+  Get.find<DailyTasKController>();
+  final UserController userController = Get.find<UserController>();
 
   @override
   Widget build(BuildContext context) {
@@ -194,7 +203,14 @@ class _SignupPageState extends State<SignupPage> {
                   SizedBox(height: 10),
                   SignInButton(
                     Buttons.google,
-                    onPressed: () {},
+                    onPressed: () async{
+                    final user= await _authService.signInwithGoogle();
+                    if (user!=null){
+                    await userController.fetchData();
+                    taskController.updateTasksBasedOnUserData(userController.userData.value);
+                    dailyTasKController.updateDailyTasksBasedOnUserData(userController.userData.value);
+                    Get.offNamed('/home');
+                    }},
                     text: 'Sign up with Google',
                     elevation: 0.5,
                     shape: RoundedRectangleBorder(
