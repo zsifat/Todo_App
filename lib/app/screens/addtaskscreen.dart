@@ -24,7 +24,7 @@ class AddTaskScreen extends StatefulWidget {
 class _AddTaskScreenState extends State<AddTaskScreen> {
   Task? task=Get.arguments;
 
-  final CustomColors customcolors = CustomColors();
+  final CustomColors customcolors = const CustomColors();
 
   DateTime endDate = DateTime.now();
   DateTime startDate=DateTime.now();
@@ -37,6 +37,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
         lastDate: DateTime(2030));
     if (pickeddate != null) {
       endDate = pickeddate;
+      print(endDate);
       ;
       return true;
     }else{
