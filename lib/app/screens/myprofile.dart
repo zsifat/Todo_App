@@ -54,7 +54,8 @@ class _MyprofileScreenState extends State<MyprofileScreen> {
           padding: EdgeInsets.all(20),
           child: ListView(
             children: [
-              const SizedBox(height: 60,),
+              Center(child: Text('Update Your Profile Info',style: GoogleFonts.poppins(fontSize: 20,fontWeight: FontWeight.w600,color: customColors.secondaryColor),)),
+              const SizedBox(height: 50,),
               Text('Name',style: GoogleFonts.poppins(fontWeight: FontWeight.w500,color: customColors.secondaryColor),),
               const SizedBox(height: 10,),
               TextField(
@@ -82,20 +83,6 @@ class _MyprofileScreenState extends State<MyprofileScreen> {
                 autocorrect: false,
                 enableSuggestions: false,
                 controller:profController ,
-                decoration: InputDecoration(
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(color: Colors.black.withOpacity(0.1))
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.black.withOpacity(0.1))
-                )),
-              ),
-              const SizedBox(height: 20,),
-              Text('Date of Birth',style: GoogleFonts.poppins(fontWeight: FontWeight.w500,color: customColors.secondaryColor),),
-              const SizedBox(height: 10,),
-              TextField(
                 decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),

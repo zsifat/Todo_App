@@ -39,12 +39,12 @@ class ProfileScreen extends StatelessWidget{
                   Text(userController.userData.value.profession,style:GoogleFonts.poppins(
                       fontSize: 12 ,fontStyle: FontStyle.italic,fontWeight: FontWeight.w500),),
                   const SizedBox(height: 50,),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20.0),
-                    child: InkWell(
-                      onTap: () {
-                        Get.toNamed('/myprofile');
-                      },
+                  InkWell(
+                    onTap: () {
+                      Get.toNamed('/myprofile');
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20.0),
                       child: Row(
                         children: [
                           Icon(CupertinoIcons.profile_circled,color: customColors.secondaryColor,size: 30,),
@@ -101,17 +101,6 @@ class ProfileScreen extends StatelessWidget{
                               fontSize: 16,fontWeight: FontWeight.w500  )),
                         ],
                       ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20.0),
-                    child: Row(
-                      children: [
-                        Icon(Icons.settings,color: customColors.secondaryColor,size: 30,),
-                        const SizedBox(width: 20,),
-                        Text('Settings',style:GoogleFonts.poppins(
-                            fontSize: 16,fontWeight: FontWeight.w500  )),
-                      ],
                     ),
                   ),
                   Padding(
