@@ -12,7 +12,7 @@ class DailyTasKController extends GetxController {
     DailyTask(title: 'Dinner', isChecked: false),
   ].obs;
 
-  toogleIsChecked(int index) {
+  togleIsChecked(int index) {
     dailytasks[index] = dailytasks[index].toggleChecked();
     update();
   }

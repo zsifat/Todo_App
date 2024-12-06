@@ -42,20 +42,20 @@ class TaskDetailsScreen extends StatelessWidget {
                       style: GoogleFonts.poppins(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
-                          color: customColors.secondColor),
+                          color: customColors.secondaryColor),
                     ),
                   ),
                   TextButton.icon(
                     onPressed: () {
                       Get.offNamed('/addtask',arguments: task);
                     },
-                    icon: Icon(Icons.edit,size: 16,),
-                    label: Text(
+                    icon: const Icon(Icons.edit,size: 16,),
+                    label: const Text(
                       'Edit Task',
                       style: TextStyle(fontSize: 12),
                     ),
                     style: TextButton.styleFrom(
-                      backgroundColor: customColors.secondColor,
+                      backgroundColor: customColors.secondaryColor,
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
@@ -63,7 +63,7 @@ class TaskDetailsScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Row(
@@ -78,7 +78,7 @@ class TaskDetailsScreen extends StatelessWidget {
                             fontSize: 14, fontWeight: FontWeight.w500),
                       ),
                       Text(
-                        '${DateFormat('dd MMM yyyy').format(task.startDate)}',style: GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize: 12),)
+                        DateFormat('dd MMM yyyy').format(task.startDate),style: GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize: 12),)
                     ],
                   ),
                   Column(
@@ -90,12 +90,12 @@ class TaskDetailsScreen extends StatelessWidget {
                             fontSize: 14, fontWeight: FontWeight.w500),
                       ),
                       Text(
-                          '${DateFormat('dd MMM yyyy').format(task.deadline)}',style: GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize: 12))
+                          DateFormat('dd MMM yyyy').format(task.deadline),style: GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize: 12))
                     ],
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Row(
@@ -105,7 +105,7 @@ class TaskDetailsScreen extends StatelessWidget {
                     child: Container(
                       height: 100,
                       decoration: BoxDecoration(
-                          color: customColors.secondColor,
+                          color: customColors.secondaryColor,
                           borderRadius: BorderRadius.circular(20)),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -123,12 +123,12 @@ class TaskDetailsScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(width: 10,),
+                  const SizedBox(width: 10,),
                   Expanded(
                     child: Container(
                       height: 100,
                       decoration: BoxDecoration(
-                          color: customColors.secondColor,
+                          color: customColors.secondaryColor,
                           borderRadius: BorderRadius.circular(20)),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -146,12 +146,12 @@ class TaskDetailsScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(width: 10,),
+                  const SizedBox(width: 10,),
                   Expanded(
                     child: Container(
                       height: 100,
                       decoration: BoxDecoration(
-                          color: customColors.secondColor,
+                          color: customColors.secondaryColor,
                           borderRadius: BorderRadius.circular(20)),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -171,13 +171,13 @@ class TaskDetailsScreen extends StatelessWidget {
                   )
                 ],
               ),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
               Text('Description',style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 14)),
-              SizedBox(height: 5,),
+              const SizedBox(height: 5,),
               Text(task.description,style: GoogleFonts.poppins(fontSize: 12),textAlign: TextAlign.left,),
-              SizedBox(height: 50,),
+              const SizedBox(height: 50,),
               Text('Progress',style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 14)),
-              SizedBox(height: 5,),
+              const SizedBox(height: 5,),
               Obx(() {
                 var progress=taskController.calculateProgress(taskController.tasks[taskindex].todos!);
                 return Stack(
@@ -185,7 +185,7 @@ class TaskDetailsScreen extends StatelessWidget {
                     LinearProgressIndicator(
                       value: progress,
                       minHeight: 24,
-                      color: customColors.secondColor,
+                      color: customColors.secondaryColor,
                       backgroundColor: Color(0xFFA9A2A2),
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -197,7 +197,7 @@ class TaskDetailsScreen extends StatelessWidget {
                   ],
                 );
               },),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
               Text('To do List',style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 14)),
 
               Expanded(
@@ -208,9 +208,9 @@ class TaskDetailsScreen extends StatelessWidget {
                       var title=task.todos!.keys.toList()[index];
                       bool isCheked= task.todos![title]!;
                       return ListTile(
-                        title: Text(title,style: GoogleFonts.poppins(fontWeight: FontWeight.w600,fontSize: 14,color: customColors.secondColor)),
+                        title: Text(title,style: GoogleFonts.poppins(fontWeight: FontWeight.w600,fontSize: 14,color: customColors.secondaryColor)),
                         trailing: Checkbox(
-                          fillColor: WidgetStateProperty.all(customColors.secondColor),
+                          fillColor: WidgetStateProperty.all(customColors.secondaryColor),
                           side: BorderSide(color: Colors.transparent),
                           value: isCheked, onChanged: (value) {
                           taskController.toogleTodoStatus(taskindex,task.todos!.keys.toList()[index]);

@@ -9,10 +9,10 @@ import '../ui_helper/widgets.dart';
 
 class ForgetPassword extends StatelessWidget{
   ForgetPassword({super.key});
-  final customColors=CustomColors();
-  TextEditingController emailController=TextEditingController();
+  final customColors= CustomColors();
+  final TextEditingController emailController=TextEditingController();
 
-  resetPassword() async{
+  void resetPassword() async{
     try{
       await FirebaseAuth.instance.sendPasswordResetEmail(email: emailController.text.trim());
       Get.snackbar('', 'Password reset email sent!');
@@ -31,25 +31,25 @@ class ForgetPassword extends StatelessWidget{
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: 70,),
+            const SizedBox(height: 70,),
             Text(
               'To do',
               style: GoogleFonts.righteous(
-                  color: customColors.secondColor, fontSize: 28),
+                  color: customColors.secondaryColor, fontSize: 28),
             ),
             Text(
               'Management App',
               style: GoogleFonts.poppins(
                   color: CupertinoColors.systemGrey, fontWeight: FontWeight.w500),
             ),
-            SizedBox(
+            const SizedBox(
               height: 60,
             ),
-            Spacer(flex: 1,)
-,            Text('Enter Your Email',
+            const Spacer(flex: 1,),
+            Text('Enter Your Email',
                 style: GoogleFonts.poppins(
                     fontSize: 14, fontWeight: FontWeight.w500)),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             TextField(
@@ -57,7 +57,7 @@ class ForgetPassword extends StatelessWidget{
               decoration: InputDecoration(
                 prefixIcon: Icon(
                   Icons.email,
-                  color: customColors.secondColor,),
+                  color: customColors.secondaryColor,),
                 hintText: 'Email',
                 hintStyle: TextStyle(color: Colors.grey.withOpacity(0.7),fontSize: 14,fontWeight: FontWeight.w400),
                 border: OutlineInputBorder(
@@ -74,15 +74,14 @@ class ForgetPassword extends StatelessWidget{
                 ),
                 ),
               ),
-            SizedBox(height: 10,),
+            const SizedBox(height: 10,),
             InkWell(
                 onTap: () {
                   resetPassword();
                   Get.offNamed('/login');
-
                 },
                 child: customButton(buttonText: 'Login')),
-            Spacer(flex: 2,)
+            const Spacer(flex: 2,)
           ],
         ),
       ),

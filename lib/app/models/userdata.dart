@@ -40,9 +40,7 @@ class UserData {
         } else {
           return DailyTask.fromMap({});  // Return empty map if data is corrupted
         }
-      })
-          .toList()
-          .obs,
+      }).toList().obs,
       priorityTasks: (map['priorityTasks'] as List<dynamic>)
           .map((taskMap) {
         if (taskMap is Map<String, dynamic>) {

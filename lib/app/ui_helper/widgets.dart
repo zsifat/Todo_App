@@ -17,11 +17,11 @@ class slideIndicatorCircle extends StatelessWidget {
     Color color3 = Color(0xFFEEF5FD);
 
     if (index == 0) {
-      color1 = customColor.secondColor;
+      color1 = customColor.secondaryColor;
     } else if (index == 1) {
-      color2 = customColor.secondColor;
+      color2 = customColor.secondaryColor;
     } else if (index == 2) {
-      color3 = customColor.secondColor;
+      color3 = customColor.secondaryColor;
     }
     return Row(
       children: [
@@ -58,7 +58,7 @@ class customButton extends StatelessWidget{
       height: 50,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: customColor.secondColor
+        color: customColor.secondaryColor
       ),
       child: Center(child: Text(buttonText,style: GoogleFonts.poppins(color: Colors.white),)),
     );

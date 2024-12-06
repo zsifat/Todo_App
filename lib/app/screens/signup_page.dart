@@ -73,7 +73,7 @@ class _SignupPageState extends State<SignupPage> {
                   Text(
                     'To do',
                     style: GoogleFonts.righteous(
-                        color: customColors.secondColor, fontSize: 28),
+                        color: customColors.secondaryColor, fontSize: 28),
                   ),
                   Text(
                     'Management App',
@@ -99,7 +99,7 @@ class _SignupPageState extends State<SignupPage> {
                             controller: emailController,
                             obscureText: false,
                             decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.email,color: customColors.secondColor,),
+                              prefixIcon: Icon(Icons.email,color: customColors.secondaryColor,),
                               hintText: 'Email',
                               hintStyle: TextStyle(color: Colors.grey.withOpacity(0.7),fontSize: 14,fontWeight: FontWeight.w400),
                               border: OutlineInputBorder(
@@ -126,7 +126,7 @@ class _SignupPageState extends State<SignupPage> {
                             controller: passController,
                             obscureText: true,
                             decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.key,color: customColors.secondColor,),
+                              prefixIcon: Icon(Icons.key,color: customColors.secondaryColor,),
                               hintText: 'Password',
                               hintStyle: TextStyle(color: Colors.grey.withOpacity(0.7),fontSize: 14,fontWeight: FontWeight.w400),
                               border: OutlineInputBorder(
@@ -152,7 +152,7 @@ class _SignupPageState extends State<SignupPage> {
                             controller: confirmPassController,
                             obscureText: true,
                             decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.key,color: customColors.secondColor,),
+                              prefixIcon: Icon(Icons.key,color: customColors.secondaryColor,),
                               hintText: 'Confirm Password',
                               hintStyle: TextStyle(color: Colors.grey.withOpacity(0.7),fontSize: 14,fontWeight: FontWeight.w400),
                               border: OutlineInputBorder(
@@ -190,13 +190,13 @@ class _SignupPageState extends State<SignupPage> {
                     children: [
                       Icon(
                         CupertinoIcons.minus,
-                        color: customColors.secondColor,
+                        color: customColors.secondaryColor,
                       ),
                       Text('OR sign up with',
                           style: GoogleFonts.poppins(fontSize: 14)),
                       Icon(
                         CupertinoIcons.minus,
-                        color: customColors.secondColor,
+                        color: customColors.secondaryColor,
                       ),
                     ],
                   ),
@@ -233,7 +233,7 @@ class _SignupPageState extends State<SignupPage> {
                               style: GoogleFonts.poppins(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w500,
-                                  color: customColors.secondColor)))
+                                  color: customColors.secondaryColor)))
                     ],
                   ),
         

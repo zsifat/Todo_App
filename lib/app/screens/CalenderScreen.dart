@@ -43,17 +43,17 @@ class _CalenderScreenState extends State<CalenderScreen> {
     return SafeArea(
       child: Scaffold(
         body: Container(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             child: Column(
               children: [
                 TableCalendar(
                     rowHeight: 40,
                     calendarStyle: CalendarStyle(
-                        todayTextStyle: TextStyle(color: Colors.black),
+                        todayTextStyle: const TextStyle(color: Colors.black),
                         todayDecoration:
-                            BoxDecoration(color: Colors.transparent),
+                            const BoxDecoration(color: Colors.transparent),
                         selectedDecoration: BoxDecoration(
-                            color: customColors.secondColor,
+                            color: customColors.secondaryColor,
                             shape: BoxShape.circle)),
                     selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
                     onDaySelected: (selectedDay, focusedDay) {
@@ -65,7 +65,7 @@ class _CalenderScreenState extends State<CalenderScreen> {
                     focusedDay: _focusedDay,
                     firstDay: DateTime.utc(2020, 1, 1),
                     lastDay: DateTime.utc(2030, 12, 31)),
-                SizedBox(height: 10,),
+                const SizedBox(height: 10,),
                 Expanded(
                   child: ListView.builder(
                     itemCount: sortedTaskList.length,
@@ -73,8 +73,8 @@ class _CalenderScreenState extends State<CalenderScreen> {
                     itemBuilder: (context, index) {
                       double progress=taskController.calculateProgress(taskController.tasks[index].todos!);
                       return Container(
-                        margin: EdgeInsets.symmetric(vertical: 10),
-                        padding: EdgeInsets.all(10),
+                        margin: const EdgeInsets.symmetric(vertical: 10),
+                        padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(color: Colors.black12.withOpacity(0.05))
@@ -90,14 +90,14 @@ class _CalenderScreenState extends State<CalenderScreen> {
                                         fontSize: 12,
                                         fontWeight: FontWeight.w600,
                                         color: Colors.grey.withOpacity(0.6)),),
-                                  SizedBox(height: 4,),
+                                  const SizedBox(height: 4,),
                                   Text(
                                     sortedTaskList[index].title,
                                     style: GoogleFonts.poppins(
                                         fontWeight: FontWeight.w700,
-                                        color: customColors.secondColor),
+                                        color: customColors.secondaryColor),
                                   ),
-                                  SizedBox(height: 10,),
+                                  const SizedBox(height: 10,),
                                   Text(sortedTaskList[index].description),
                               
                                 ],
@@ -122,7 +122,7 @@ class _CalenderScreenState extends State<CalenderScreen> {
                                 CircularProgressIndicator(
                                   value:progress ,
                                   strokeWidth: 6.0, // Thickness of the progress line
-                                  valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                                  valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
                                 ),
                               ],
                             ),

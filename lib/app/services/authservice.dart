@@ -28,7 +28,7 @@ class AuthService{
         duration: Duration(seconds: 2),
         margin: EdgeInsets.all(10),
         borderRadius: 15,
-        backgroundColor: customcolors.sixthColor,
+        backgroundColor: customcolors.lightBlue4,
         barBlur: 10,
         dismissDirection: DismissDirection.vertical,
         snackPosition: SnackPosition.TOP,
@@ -40,9 +40,31 @@ class AuthService{
   Future<User?> signUpWithEmail(String email,String pass) async{
     try {
       UserCredential result=await _auth.createUserWithEmailAndPassword(email: email, password: pass);
+      await result.user?.sendEmailVerification();
+      Get.showSnackbar(GetSnackBar(
+        title: 'Verification Email Sent',
+        message: 'Please check your email for verification.',
+        duration: const Duration(seconds: 3),
+        margin: const EdgeInsets.all(10),
+        borderRadius: 15,
+        backgroundColor: customcolors.lightBlue4,
+        barBlur: 10,
+        dismissDirection: DismissDirection.vertical,
+        snackPosition: SnackPosition.TOP,
+      ));
       return result.user;
     }catch(error){
-      print('Error: $error');
+      Get.showSnackbar(GetSnackBar(
+        title: 'Sign-Up Error',
+        message: 'Failed to sign up: $error',
+        duration: const Duration(seconds: 3),
+        margin: const EdgeInsets.all(10),
+        borderRadius: 15,
+        backgroundColor: customcolors.lightBlue4,
+        barBlur: 10,
+        dismissDirection: DismissDirection.vertical,
+        snackPosition: SnackPosition.TOP,
+      ));
       return null;
     }
   }
@@ -51,10 +73,55 @@ class AuthService{
   Future<User?> signInWithEmail(String email,String pass) async{
     try{
       UserCredential result=await _auth.signInWithEmailAndPassword(email: email, password: pass);
+      if(result.user!=null && !result.user!.emailVerified){
+        Get.showSnackbar(GetSnackBar(
+          title: 'Email Verification Pending',
+          message: 'Please verify your email before proceeding.',
+          duration: const Duration(seconds: 3),
+          margin: const EdgeInsets.all(10),
+          borderRadius: 15,
+          backgroundColor: customcolors.lightBlue4,
+          barBlur: 10,
+          dismissDirection: DismissDirection.vertical,
+          snackPosition: SnackPosition.TOP,
+        ));
+        return null;
+      }
       return result.user;
     }catch(error){
-      print('Error: $error');
+      Get.showSnackbar(GetSnackBar(
+        title: 'Sign-In Error',
+        message: 'Please check your credentials.',
+        duration: const Duration(seconds: 3),
+        margin: const EdgeInsets.all(10),
+        borderRadius: 15,
+        backgroundColor: customcolors.lightBlue4,
+        barBlur: 10,
+        dismissDirection: DismissDirection.vertical,
+        snackPosition: SnackPosition.TOP,
+      ));
       return null;
+    }
+  }
+  Future<void> checkEmailVerification() async {
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user != null && !user.emailVerified) {
+      // Show a message and ask the user to verify the email
+      Get.showSnackbar(GetSnackBar(
+        title: 'Email Not Verified',
+        message: 'Please verify your email to continue.',
+        duration: const Duration(seconds: 3),
+        margin: const EdgeInsets.all(10),
+        borderRadius: 15,
+        backgroundColor: customcolors.lightBlue4,
+        barBlur: 10,
+        dismissDirection: DismissDirection.vertical,
+        snackPosition: SnackPosition.TOP,
+      ));
+    } else if (user != null && user.emailVerified) {
+      // Navigate to the home screen if email is verified
+      Get.offNamed('/home');
     }
   }
 

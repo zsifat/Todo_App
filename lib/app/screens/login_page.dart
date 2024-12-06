@@ -54,8 +54,6 @@ class _LoginPageState extends State<LoginPage> {
         taskController.updateTasksBasedOnUserData(userController.userData.value);
         dailyTasKController.updateDailyTasksBasedOnUserData(userController.userData.value);
         Get.offNamed('/home');
-      }else{
-        Get.snackbar('Attention', 'Login failed. Please check your credentials.',backgroundColor: customColors.tenthColor);
       }
 
     }
@@ -75,20 +73,20 @@ class _LoginPageState extends State<LoginPage> {
               Text(
                 'To do',
                 style: GoogleFonts.righteous(
-                    color: customColors.secondColor, fontSize: 28),
+                    color: customColors.secondaryColor, fontSize: 28),
               ),
               Text(
                 'Management App',
                 style: GoogleFonts.poppins(
                     color: CupertinoColors.systemGrey, fontWeight: FontWeight.w500),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 60,
               ),
               Text('Login to your account',
                   style: GoogleFonts.poppins(
                       fontSize: 14, fontWeight: FontWeight.w500)),
-              SizedBox(
+              const SizedBox(
                 height: 25,
               ),
               Form(
@@ -97,14 +95,20 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TextFormField(
+                    autocorrect: false,
+                    enableSuggestions: false,
                     keyboardType: TextInputType.emailAddress,
                     controller: emailController,
                     obscureText: false,
                     decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.email,color: customColors.secondColor,),
+                      prefixIcon: Icon(Icons.email,color: customColors.secondaryColor,),
                       hintText: 'Email',
                       hintStyle: TextStyle(color: Colors.grey.withOpacity(0.7),fontSize: 14,fontWeight: FontWeight.w400),
                       border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: Colors.grey.withOpacity(0.3))
+                      ),
+                      focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(color: Colors.grey.withOpacity(0.3))
                       ),
@@ -123,16 +127,22 @@ class _LoginPageState extends State<LoginPage> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   TextFormField(
+                    autocorrect: false,
+                    enableSuggestions: false,
                     keyboardType: TextInputType.emailAddress,
                     controller: passController,
                     obscureText: true,
                     decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.key,color: customColors.secondColor,),
+                      prefixIcon: Icon(Icons.key,color: customColors.secondaryColor,),
                       hintText: 'Password',
                       hintStyle: TextStyle(color: Colors.grey.withOpacity(0.7),fontSize: 14,fontWeight: FontWeight.w400),
                       border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: Colors.grey.withOpacity(0.3))
+                      ),
+                      focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(color: Colors.grey.withOpacity(0.3))
                       ),
@@ -152,7 +162,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ],
               )),
-              SizedBox(height: 5,),
+              const SizedBox(height: 5,),
               Align(
                 alignment: Alignment.centerRight,
                 child: InkWell(
@@ -162,12 +172,12 @@ class _LoginPageState extends State<LoginPage> {
                   },
                   child: Text(
                     'Forgot password?',
-                    style: GoogleFonts.poppins(fontSize: 10,color: customColors.seventhColor),
+                    style: GoogleFonts.poppins(fontSize: 10,color: customColors.lightBlue5),
 
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               _isLoading ? CircularProgressIndicator():
@@ -176,7 +186,7 @@ class _LoginPageState extends State<LoginPage> {
                   login();
                 },
                   child: customButton(buttonText: 'Login')),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Row(
@@ -184,17 +194,17 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   Icon(
                     CupertinoIcons.minus,
-                    color: customColors.secondColor,
+                    color: customColors.secondaryColor,
                   ),
                   Text('OR login with', style: GoogleFonts.poppins(fontSize: 14)),
                   Icon(
                     CupertinoIcons.minus,
-                    color: customColors.secondColor,
+                    color: customColors.secondaryColor,
                   ),
                 ],
               ),
-              SizedBox(
-                height: 10,
+              const SizedBox(
+                height: 15,
               ),
               SignInButton(
                 Buttons.google,
@@ -212,7 +222,7 @@ class _LoginPageState extends State<LoginPage> {
                 shape:
                     RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               Row(
@@ -224,7 +234,7 @@ class _LoginPageState extends State<LoginPage> {
                   TextButton(onPressed: () {
                     Get.toNamed('/signup');
                   }, child: Text('Sign Up', style: GoogleFonts.poppins(
-                      fontSize: 12, fontWeight: FontWeight.w500,color: customColors.secondColor)))
+                      fontSize: 12, fontWeight: FontWeight.w500,color: customColors.secondaryColor)))
                 ],
               ),
             ],

@@ -14,11 +14,23 @@ class GetStartedScreen extends StatelessWidget {
   final int index;
   GetStartedScreen({super.key,required this.index});
   final TaskController taskController = Get.find<TaskController>();
-  final DailyTasKController dailyTasKController =
+  final DailyTasKController dailyTaskController =
   Get.find<DailyTasKController>();
   final UserController userController = Get.find<UserController>();
 
-  var customColors = CustomColors();
+  Future<void> _handleSkipButtonPressed() async {
+    final user=FirebaseAuth.instance.currentUser;
+    if(user!=null) {
+      await userController.fetchData();
+      taskController.updateTasksBasedOnUserData(userController.userData.value);
+      dailyTaskController.updateDailyTasksBasedOnUserData(userController.userData.value);
+      Get.offNamed('/home');
+    }else{
+      Get.offNamed('/login');
+    }
+  }
+
+  final customColors = CustomColors();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,21 +41,13 @@ class GetStartedScreen extends StatelessWidget {
         ),
         actions: [
           TextButton(
-              onPressed:() async{
-                final user=FirebaseAuth.instance.currentUser;
-                if(user!=null) {
-                  await userController.fetchData();
-                  taskController.updateTasksBasedOnUserData(userController.userData.value);
-                  dailyTasKController.updateDailyTasksBasedOnUserData(userController.userData.value);
-                  Get.offNamed('/home');
-                }else{
-                  Get.offNamed('/login');
-                }
+              onPressed:() {
+                _handleSkipButtonPressed();
               },
               child: Text(
                 'skip',
                 style: GoogleFonts.poppins(
-                    color: customColors.secondColor,
+                    color: customColors.secondaryColor,
                     fontWeight: FontWeight.w600,
                     fontSize: 14),
               ))
@@ -58,7 +62,7 @@ class GetStartedScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset(allGetStartData[index].imagePath),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   Text(
@@ -66,7 +70,7 @@ class GetStartedScreen extends StatelessWidget {
                     style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w500, fontSize: 16),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   Text(allGetStartData[index].text,
@@ -85,23 +89,17 @@ class GetStartedScreen extends StatelessWidget {
                   }else if(index==1){
                     Get.offNamed('/gsthird');
                   }else{
-                    final user=FirebaseAuth.instance.currentUser;
-                    if(user!=null) {
-                      await userController.fetchData();
-                      taskController.updateTasksBasedOnUserData(userController.userData.value);
-                      dailyTasKController.updateDailyTasksBasedOnUserData(userController.userData.value);
-                      Get.offNamed('/home');
-                    }else{
-                      Get.offNamed('/login');
-                    }
+                    await _handleSkipButtonPressed();
 
                   }
                 },
                 child: customButton(buttonText: 'Get Started',)),
           ),
-          SizedBox(height: 10,)
+          const SizedBox(height: 10,)
         ],
       ),
     );
   }
+
+
 }

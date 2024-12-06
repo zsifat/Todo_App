@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_app/app/controllers/daily_task_controller.dart';
+import 'package:todo_app/app/controllers/darkmode_controller.dart';
 import 'package:todo_app/app/models/daily_task.dart';
 import 'package:todo_app/app/models/task.dart';
 import 'package:todo_app/app/ui_helper/colors.dart';
@@ -14,6 +15,8 @@ import '../controllers/task_controller.dart';
 import '../controllers/usercontroller.dart';
 
 class AddTaskScreen extends StatefulWidget {
+  const AddTaskScreen({super.key});
+
   @override
   State<AddTaskScreen> createState() => _AddTaskScreenState();
 }
@@ -21,7 +24,7 @@ class AddTaskScreen extends StatefulWidget {
 class _AddTaskScreenState extends State<AddTaskScreen> {
   Task? task=Get.arguments;
 
-  CustomColors customcolors = CustomColors();
+  final CustomColors customcolors = CustomColors();
 
   DateTime endDate = DateTime.now();
   DateTime startDate=DateTime.now();
@@ -36,6 +39,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       endDate = pickeddate;
       ;
       return true;
+    }else{
+      return null;
     }
   }
 
@@ -56,7 +61,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
         duration: Duration(seconds: 2),
         margin: EdgeInsets.all(10),
         borderRadius: 15,
-        backgroundColor: customcolors.sixthColor,
+        backgroundColor: customcolors.lightBlue4,
         barBlur: 10,
         dismissDirection: DismissDirection.vertical,
         snackPosition: SnackPosition.TOP,
@@ -121,7 +126,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
         startDate=task!.startDate;
         task !=null ? titleController.text=task!.title : titleController.text='';
         task !=null ? descController.text=task!.description : descController.text='';
-        print(task!.startDate);
         for (var todo in task!.todos!.keys) {
           TextEditingController todocontroller=TextEditingController();
           todoControllers.add(todocontroller);
@@ -130,7 +134,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
           element.text= task!.todos!.keys.toList()[todoControllers.indexOf(element)];
         },);
       }else{
-        var todocontroller = TextEditingController();
+        final todocontroller = TextEditingController();
         todoControllers.add(todocontroller);
 
       }
@@ -144,6 +148,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       final TaskController taskController=Get.find<TaskController>();
       final DailyTasKController dailyTasKController=Get.find<DailyTasKController>();
       final UserController userController = Get.find<UserController>();
+      final themeController=Get.find<DarkModeController>();
 
       int? taskIndex= task==null ? null : taskController.tasks.indexOf(Get.arguments);
       return Scaffold(
@@ -153,7 +158,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
             Container(
               height: double.infinity,
               decoration: BoxDecoration(
-                color: customcolors.secondColor,
+                color: customcolors.secondaryColor,
               ),
             ),
             Column(
@@ -168,14 +173,14 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       fontWeight: FontWeight.w600,
                       color: Colors.white),
                 ),
-                SizedBox(height: 40),
+                const SizedBox(height: 40),
                 Expanded(
                   child: SingleChildScrollView(
                     child: Container(
                       height: 755,
                       padding: EdgeInsets.only(left: 30,top: 30,right: 30),
                       decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: themeController.isDarkMode.value ? Colors.black : Colors.white,
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(50),
                               topRight: Radius.circular(50))),
@@ -196,24 +201,24 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                         style: GoogleFonts.poppins(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w500,
-                                            color: customcolors.secondColor),
+                                            color: customcolors.secondaryColor),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 10,
                                       ),
                                       Row(
                                         children: [
                                           Icon(
                                             Icons.calendar_today,
-                                            color: customcolors.secondColor
+                                            color: customcolors.secondaryColor
                                                 .withOpacity(0.4),
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             width: 10,
                                           ),
                                           Text(
-                                            '${DateFormat('MMM d y').format(
-                                                startDate)}',
+                                            DateFormat('MMM d y').format(
+                                                startDate),
                                             style: GoogleFonts.poppins(
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.w500),
@@ -223,7 +228,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                     ],
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 15,
                                 ),
                                 Expanded(
@@ -236,9 +241,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                         style: GoogleFonts.poppins(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w500,
-                                            color: customcolors.secondColor),
+                                            color: customcolors.secondaryColor),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 10,
                                       ),
                                       prioritychoosen ?
@@ -254,14 +259,14 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                           children: [
                                             Icon(
                                               Icons.calendar_today,
-                                              color: customcolors.secondColor,
+                                              color: customcolors.secondaryColor,
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               width: 10,
                                             ),
                                             Text(
-                                              '${DateFormat('MMM d y').format(
-                                                  endDate)}',
+                                              DateFormat('MMM d y').format(
+                                                  endDate),
                                               style: GoogleFonts.poppins(
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.w500),
@@ -272,14 +277,14 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                         children: [
                                           Icon(
                                             Icons.calendar_today,
-                                            color: customcolors.secondColor.withOpacity(0.4),
+                                            color: customcolors.secondaryColor.withOpacity(0.4),
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             width: 10,
                                           ),
                                           Text(
-                                            '${DateFormat('MMM d y').format(
-                                                DateTime.now())}',
+                                            DateFormat('MMM d y').format(
+                                                DateTime.now()),
                                             style: GoogleFonts.poppins(
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.w500),
@@ -291,7 +296,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                 ),
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 30,
                             ),
                             Text(
@@ -299,7 +304,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                               style: GoogleFonts.poppins(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500,
-                                  color: customcolors.secondColor),
+                                  color: customcolors.secondaryColor),
                             ),
                             TextField(
                               controller: titleController,
@@ -318,7 +323,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                               ),
                               autofocus: task==null ? true :false,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 30,
                             ),
                             Text(
@@ -326,9 +331,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                               style: GoogleFonts.poppins(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500,
-                                  color: customcolors.secondColor),
+                                  color: customcolors.secondaryColor),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             Row(
@@ -345,7 +350,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                       width: 160,
                                       decoration: BoxDecoration(
                                           color: prioritychoosen
-                                              ? customcolors.secondColor
+                                              ? customcolors.secondaryColor
                                               : Colors.white,
                                           borderRadius:
                                           BorderRadius.circular(10)),
@@ -356,14 +361,14 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                               fontSize: 16,
                                               fontWeight: FontWeight.w500,
                                               color: !prioritychoosen
-                                                  ? customcolors.secondColor
+                                                  ? customcolors.secondaryColor
                                                   : Colors.white),
                                         ),
                                       ),
                                     ),
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
                                 Expanded(
@@ -378,7 +383,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                       width: 160,
                                       decoration: BoxDecoration(
                                           color: !prioritychoosen
-                                              ? customcolors.secondColor
+                                              ? customcolors.secondaryColor
                                               : Colors.white,
                                           borderRadius:
                                           BorderRadius.circular(10)),
@@ -389,7 +394,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                               fontSize: 16,
                                               fontWeight: FontWeight.w500,
                                               color: prioritychoosen
-                                                  ? customcolors.secondColor
+                                                  ? customcolors.secondaryColor
                                                   : Colors.white),
                                         ),
                                       ),
@@ -398,7 +403,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                 )
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 30,
                             ),
                             Text(
@@ -406,7 +411,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                               style: GoogleFonts.poppins(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500,
-                                  color: customcolors.secondColor),
+                                  color: customcolors.secondaryColor),
                             ),
                             TextField(
                               controller: descController,
@@ -428,17 +433,17 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                               textInputAction: TextInputAction.done,
                               autofocus: task==null ? true :false,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 30,
                             ),
-                            !prioritychoosen ? SizedBox.shrink() : Text(
+                            !prioritychoosen ? const SizedBox.shrink() : Text(
                               'To Do list',
                               style: GoogleFonts.poppins(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500,
-                                  color: customcolors.secondColor),
+                                  color: customcolors.secondaryColor),
                             ),
-                            !prioritychoosen ? SizedBox.shrink() : ListView
+                            !prioritychoosen ? const SizedBox.shrink() : ListView
                                 .builder(
                               shrinkWrap: true,
                               padding: EdgeInsets.zero,
@@ -474,16 +479,16 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                         },
                                         icon: Icon(
                                           Icons.delete,
-                                          color: customcolors.seventhColor,
+                                          color: customcolors.lightBlue5,
                                         ))
                                   ],
                                 );
                               },
                             ),
-                            !prioritychoosen ? SizedBox.shrink() : SizedBox(
+                            !prioritychoosen ? const SizedBox.shrink() : const SizedBox(
                               height: 15,
                             ),
-                            !prioritychoosen ? SizedBox.shrink() : InkWell(
+                            !prioritychoosen ? const SizedBox.shrink() : InkWell(
                               onTap: () {
                                 _addTodo(todoControllers.length - 1);
                                 setState(() {});
@@ -492,7 +497,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                 height: 50,
                                 width: double.infinity,
                                 decoration: BoxDecoration(
-                                    color: customcolors.secondColor,
+                                    color: customcolors.secondaryColor,
                                     borderRadius: BorderRadius.circular(10)),
                                 child: Center(
                                   child: Text(
@@ -505,7 +510,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 20,),
+                            const SizedBox(height: 20,),
                             Row(children: [
                               Expanded(
                                 child: InkWell(
@@ -513,7 +518,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                   child: Container(
                                     height: 50,
                                     decoration: BoxDecoration(
-                                        border: Border.fromBorderSide(BorderSide(width: 1)),
+                                        border: const Border.fromBorderSide(BorderSide(width: 1)),
                                         borderRadius: BorderRadius.circular(10)),
                                     child: Center(
                                       child: Text(
@@ -527,7 +532,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                   ),
                                 ),
                               ),
-                              SizedBox(width: 10,),
+                              const SizedBox(width: 10,),
                               Expanded(
                                 child: InkWell(
                                   onTap: () {
@@ -557,7 +562,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                         duration: Duration(seconds: 2),
                                         margin: EdgeInsets.all(10),
                                         borderRadius: 15,
-                                        backgroundColor: customcolors.sixthColor,
+                                        backgroundColor: customcolors.lightBlue4,
                                         barBlur: 10,
                                         dismissDirection: DismissDirection.vertical,
                                         snackPosition: SnackPosition.TOP,
@@ -569,7 +574,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                   child: Container(
                                     height: 50,
                                     decoration: BoxDecoration(
-                                        color: customcolors.secondColor,
+                                        color: customcolors.secondaryColor,
                                         borderRadius: BorderRadius.circular(10)),
                                     child: Center(
                                       child: Text(
@@ -584,7 +589,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                 ),
                               ),
                             ],),
-                            SizedBox(height: 20)
+                            const SizedBox(height: 20)
                           ],
 
                         ),
