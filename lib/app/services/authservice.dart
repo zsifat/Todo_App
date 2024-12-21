@@ -9,7 +9,7 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  final customcolors = CustomColors();
+  final customcolors = const CustomColors();
 
   static const int _signInTimeoutSeconds = 30;
 
@@ -17,7 +17,7 @@ class AuthService {
     try {
       final GoogleSignInAccount? googleUser = await _googleSignIn
           .signIn()
-          .timeout(Duration(seconds: _signInTimeoutSeconds));
+          .timeout(const Duration(seconds: _signInTimeoutSeconds));
 
       if (googleUser == null) return null;
 
@@ -107,7 +107,7 @@ class AuthService {
     try {
       final result = await _auth
           .signInWithEmailAndPassword(email: email.trim(), password: pass)
-          .timeout(Duration(seconds: _signInTimeoutSeconds));
+          .timeout(const Duration(seconds: _signInTimeoutSeconds));
 
       if (result.user == null) return null;
 

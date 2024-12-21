@@ -6,15 +6,15 @@ import 'package:todo_app/app/ui_helper/colors.dart';
 class slideIndicatorCircle extends StatelessWidget {
   final int index;
 
-  slideIndicatorCircle(this.index);
+  slideIndicatorCircle(this.index, {super.key});
 
-  var customColor = CustomColors();
+  var customColor = const CustomColors();
 
   @override
   Widget build(BuildContext context) {
-    Color color1 = Color(0xFFEEF5FD);
-    Color color2 = Color(0xFFEEF5FD);
-    Color color3 = Color(0xFFEEF5FD);
+    Color color1 = const Color(0xFFEEF5FD);
+    Color color2 = const Color(0xFFEEF5FD);
+    Color color3 = const Color(0xFFEEF5FD);
 
     if (index == 0) {
       color1 = customColor.secondaryColor;
@@ -27,17 +27,17 @@ class slideIndicatorCircle extends StatelessWidget {
       children: [
         Container(
           width: 10,
-          margin: EdgeInsets.symmetric(horizontal: 3),
+          margin: const EdgeInsets.symmetric(horizontal: 3),
           decoration: BoxDecoration(shape: BoxShape.circle, color: color1),
         ),
         Container(
           width: 10,
-          margin: EdgeInsets.symmetric(horizontal: 3),
+          margin: const EdgeInsets.symmetric(horizontal: 3),
           decoration: BoxDecoration(shape: BoxShape.circle, color: color2),
         ),
         Container(
           width: 10,
-          margin: EdgeInsets.symmetric(horizontal: 3),
+          margin: const EdgeInsets.symmetric(horizontal: 3),
           decoration: BoxDecoration(shape: BoxShape.circle, color: color3),
         ),
       ],
@@ -45,25 +45,25 @@ class slideIndicatorCircle extends StatelessWidget {
   }
 }
 
-class customButton extends StatelessWidget{
+class customButton extends StatelessWidget {
   final String buttonText;
-  customButton({required this.buttonText});
+  customButton({super.key, required this.buttonText});
 
-  var customColor = CustomColors();
+  var customColor = const CustomColors();
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(0),
+      margin: const EdgeInsets.all(0),
       width: double.infinity,
       height: 50,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: customColor.secondaryColor
-      ),
-      child: Center(child: Text(buttonText,style: GoogleFonts.poppins(color: Colors.white),)),
+          borderRadius: BorderRadius.circular(10),
+          color: customColor.secondaryColor),
+      child: Center(
+          child: Text(
+        buttonText,
+        style: GoogleFonts.poppins(color: Colors.white),
+      )),
     );
   }
 }
-
-
-

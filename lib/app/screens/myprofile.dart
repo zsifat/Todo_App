@@ -14,7 +14,9 @@ import '../controllers/task_controller.dart';
 import '../controllers/usercontroller.dart';
 import '../ui_helper/colors.dart';
 
-class MyprofileScreen extends StatefulWidget{
+class MyprofileScreen extends StatefulWidget {
+  const MyprofileScreen({super.key});
+
   @override
   State<MyprofileScreen> createState() => _MyprofileScreenState();
 }
@@ -22,109 +24,138 @@ class MyprofileScreen extends StatefulWidget{
 class _MyprofileScreenState extends State<MyprofileScreen> {
   final UserController userController = Get.find<UserController>();
   final DailyTasKController dailyTasKController =
-  Get.find<DailyTasKController>();
+      Get.find<DailyTasKController>();
   final TaskController taskController = Get.find<TaskController>();
 
-  CustomColors customColors = CustomColors();
+  CustomColors customColors = const CustomColors();
 
   final ImagePicker _picker = ImagePicker();
   XFile? _imageFile;
 
-  final emailController=TextEditingController();
+  final emailController = TextEditingController();
 
-  final nameController=TextEditingController();
-  final profController=TextEditingController();
-
-
-
+  final nameController = TextEditingController();
+  final profController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    User? user=FirebaseAuth.instance.currentUser;
-    if(user!=null){
-      emailController.text=user.email!;
-      nameController.text=userController.userData.value.name;
-      profController.text=userController.userData.value.profession;
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      emailController.text = user.email!;
+      nameController.text = userController.userData.value.name;
+      profController.text = userController.userData.value.profession;
     }
 
     return Scaffold(
-      body:SafeArea(
+      body: SafeArea(
         child: Container(
           width: double.infinity,
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           child: ListView(
             children: [
-              Center(child: Text('Update Your Profile Info',style: GoogleFonts.poppins(fontSize: 20,fontWeight: FontWeight.w600,color: customColors.secondaryColor),)),
-              const SizedBox(height: 50,),
-              Text('Name',style: GoogleFonts.poppins(fontWeight: FontWeight.w500,color: customColors.secondaryColor),),
-              const SizedBox(height: 10,),
+              Center(
+                  child: Text(
+                'Update Your Profile Info',
+                style: GoogleFonts.poppins(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    color: customColors.secondaryColor),
+              )),
+              const SizedBox(
+                height: 50,
+              ),
+              Text(
+                'Name',
+                style: GoogleFonts.poppins(
+                    fontWeight: FontWeight.w500,
+                    color: customColors.secondaryColor),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
               TextField(
                 autocorrect: false,
                 enableSuggestions: false,
                 controller: nameController,
-               decoration: InputDecoration(
-                   border:  OutlineInputBorder(
-                       borderRadius: BorderRadius.circular(10),
-                       borderSide: BorderSide(color: Colors.black.withOpacity(0.1))
-                   ),
-                   focusedBorder: OutlineInputBorder(
-                       borderRadius: BorderRadius.circular(10),
-                       borderSide: BorderSide(color: Colors.black.withOpacity(0.1))
-                   ),
-                   enabledBorder: OutlineInputBorder(
-                   borderRadius: BorderRadius.circular(10),
-                 borderSide: BorderSide(color: Colors.black.withOpacity(0.1))
-               )),
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide:
+                            BorderSide(color: Colors.black.withOpacity(0.1))),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide:
+                            BorderSide(color: Colors.black.withOpacity(0.1))),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide:
+                            BorderSide(color: Colors.black.withOpacity(0.1)))),
               ),
-              const SizedBox(height: 20,),
-              Text('Profession',style: GoogleFonts.poppins(fontWeight: FontWeight.w500,color: customColors.secondaryColor),),
-              const SizedBox(height: 10,),
+              const SizedBox(
+                height: 20,
+              ),
+              Text(
+                'Profession',
+                style: GoogleFonts.poppins(
+                    fontWeight: FontWeight.w500,
+                    color: customColors.secondaryColor),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
               TextField(
                 autocorrect: false,
                 enableSuggestions: false,
-                controller:profController ,
+                controller: profController,
                 decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(color: Colors.black.withOpacity(0.1))
-                    ),
+                        borderSide:
+                            BorderSide(color: Colors.black.withOpacity(0.1))),
                     enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.black.withOpacity(0.1))
-                )),
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide:
+                            BorderSide(color: Colors.black.withOpacity(0.1)))),
               ),
-              const SizedBox(height: 20,),
-              Text('Email',style: GoogleFonts.poppins(fontWeight: FontWeight.w500,color: customColors.secondaryColor),),
-              const SizedBox(height: 10,),
+              const SizedBox(
+                height: 20,
+              ),
+              Text(
+                'Email',
+                style: GoogleFonts.poppins(
+                    fontWeight: FontWeight.w500,
+                    color: customColors.secondaryColor),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
               TextField(
                 autocorrect: false,
                 enableSuggestions: false,
                 enabled: false,
                 controller: emailController,
-                decoration: InputDecoration(enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.black.withOpacity(0.1))
-                )),
+                decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide:
+                            BorderSide(color: Colors.black.withOpacity(0.1)))),
               ),
-              const SizedBox(height: 30,),
+              const SizedBox(
+                height: 30,
+              ),
               InkWell(
-                  onTap: () async{
-                    if(nameController.text.isNotEmpty && user!=null){
-                      userController.userData.value.name=nameController.text;
-                      userController.userData.value.profession=profController.text;
+                  onTap: () async {
+                    if (nameController.text.isNotEmpty && user != null) {
+                      userController.userData.value.name = nameController.text;
+                      userController.userData.value.profession =
+                          profController.text;
                       userController.uploadData(user.uid);
                       setState(() {
                         Get.offNamed('/home');
                       });
-
-
                     }
                   },
                   child: customButton(buttonText: 'Save'))
-
-
-
-
             ],
           ),
         ),

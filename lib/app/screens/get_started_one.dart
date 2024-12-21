@@ -12,25 +12,26 @@ import '../controllers/usercontroller.dart';
 
 class GetStartedScreen extends StatelessWidget {
   final int index;
-  GetStartedScreen({super.key,required this.index});
+  GetStartedScreen({super.key, required this.index});
   final TaskController taskController = Get.find<TaskController>();
   final DailyTasKController dailyTaskController =
-  Get.find<DailyTasKController>();
+      Get.find<DailyTasKController>();
   final UserController userController = Get.find<UserController>();
 
   Future<void> _handleSkipButtonPressed() async {
-    final user=FirebaseAuth.instance.currentUser;
-    if(user!=null) {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
       await userController.fetchData();
       taskController.updateTasksBasedOnUserData(userController.userData.value);
-      dailyTaskController.updateDailyTasksBasedOnUserData(userController.userData.value);
+      dailyTaskController
+          .updateDailyTasksBasedOnUserData(userController.userData.value);
       Get.offNamed('/home');
-    }else{
+    } else {
       Get.offNamed('/login');
     }
   }
 
-  final customColors = CustomColors();
+  final customColors = const CustomColors();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +42,7 @@ class GetStartedScreen extends StatelessWidget {
         ),
         actions: [
           TextButton(
-              onPressed:() {
+              onPressed: () {
                 _handleSkipButtonPressed();
               },
               child: Text(
@@ -83,23 +84,26 @@ class GetStartedScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: InkWell(
-                onTap: () async{
-                  if(index==0){
-                    Get.offNamed('/gssecond',);
-                  }else if(index==1){
+                onTap: () async {
+                  if (index == 0) {
+                    Get.offNamed(
+                      '/gssecond',
+                    );
+                  } else if (index == 1) {
                     Get.offNamed('/gsthird');
-                  }else{
+                  } else {
                     await _handleSkipButtonPressed();
-
                   }
                 },
-                child: customButton(buttonText: 'Get Started',)),
+                child: customButton(
+                  buttonText: 'Get Started',
+                )),
           ),
-          const SizedBox(height: 10,)
+          const SizedBox(
+            height: 10,
+          )
         ],
       ),
     );
   }
-
-
 }

@@ -10,13 +10,16 @@ import '../controllers/task_controller.dart';
 import '../controllers/usercontroller.dart';
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends State<SplashScreen> {
   final TaskController taskController = Get.find<TaskController>();
-  final DailyTasKController dailyTasKController = Get.find<DailyTasKController>();
+  final DailyTasKController dailyTasKController =
+      Get.find<DailyTasKController>();
   final UserController userController = Get.find<UserController>();
 
   @override
@@ -35,8 +38,10 @@ class _SplashScreenState extends State<SplashScreen> {
       final user = FirebaseAuth.instance.currentUser;
       if (user != null) {
         await userController.fetchData();
-        taskController.updateTasksBasedOnUserData(userController.userData.value);
-        dailyTasKController.updateDailyTasksBasedOnUserData(userController.userData.value);
+        taskController
+            .updateTasksBasedOnUserData(userController.userData.value);
+        dailyTasKController
+            .updateDailyTasksBasedOnUserData(userController.userData.value);
         Get.offNamed('/home');
       } else {
         Get.offNamed('/login');
@@ -57,7 +62,11 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Image.asset('lib/assets/images/splashlogo.png',height: 100,width: 100,),
+        child: Image.asset(
+          'lib/assets/images/splashlogo.png',
+          height: 100,
+          width: 100,
+        ),
       ),
     );
   }

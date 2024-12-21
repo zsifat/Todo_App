@@ -7,21 +7,20 @@ import 'package:todo_app/app/ui_helper/colors.dart';
 
 import '../ui_helper/widgets.dart';
 
-class ForgetPassword extends StatelessWidget{
+class ForgetPassword extends StatelessWidget {
   ForgetPassword({super.key});
-  final customColors= CustomColors();
-  final TextEditingController emailController=TextEditingController();
+  final customColors = const CustomColors();
+  final TextEditingController emailController = TextEditingController();
 
-  void resetPassword() async{
-    try{
-      await FirebaseAuth.instance.sendPasswordResetEmail(email: emailController.text.trim());
+  void resetPassword() async {
+    try {
+      await FirebaseAuth.instance
+          .sendPasswordResetEmail(email: emailController.text.trim());
       Get.snackbar('', 'Password reset email sent!');
-    }catch(e){
+    } catch (e) {
       Get.snackbar('Error', e.toString());
     }
-
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +30,9 @@ class ForgetPassword extends StatelessWidget{
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(height: 70,),
+            const SizedBox(
+              height: 70,
+            ),
             Text(
               'To do',
               style: GoogleFonts.righteous(
@@ -40,12 +41,15 @@ class ForgetPassword extends StatelessWidget{
             Text(
               'Management App',
               style: GoogleFonts.poppins(
-                  color: CupertinoColors.systemGrey, fontWeight: FontWeight.w500),
+                  color: CupertinoColors.systemGrey,
+                  fontWeight: FontWeight.w500),
             ),
             const SizedBox(
               height: 60,
             ),
-            const Spacer(flex: 1,),
+            const Spacer(
+              flex: 1,
+            ),
             Text('Enter Your Email',
                 style: GoogleFonts.poppins(
                     fontSize: 14, fontWeight: FontWeight.w500)),
@@ -57,35 +61,42 @@ class ForgetPassword extends StatelessWidget{
               decoration: InputDecoration(
                 prefixIcon: Icon(
                   Icons.email,
-                  color: customColors.secondaryColor,),
+                  color: customColors.secondaryColor,
+                ),
                 hintText: 'Email',
-                hintStyle: TextStyle(color: Colors.grey.withOpacity(0.7),fontSize: 14,fontWeight: FontWeight.w400),
+                hintStyle: TextStyle(
+                    color: Colors.grey.withOpacity(0.7),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.grey.withOpacity(0.3))
-                ),
-                focusedBorder:  OutlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Colors.grey.withOpacity(0.3))),
+                focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.grey.withOpacity(0.3))
-                ),
+                    borderSide:
+                        BorderSide(color: Colors.grey.withOpacity(0.3))),
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.grey.withOpacity(0.3))
-                ),
-                ),
+                    borderSide:
+                        BorderSide(color: Colors.grey.withOpacity(0.3))),
               ),
-            const SizedBox(height: 10,),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
             InkWell(
                 onTap: () {
                   resetPassword();
                   Get.offNamed('/login');
                 },
                 child: customButton(buttonText: 'Login')),
-            const Spacer(flex: 2,)
+            const Spacer(
+              flex: 2,
+            )
           ],
         ),
       ),
     );
   }
-
 }

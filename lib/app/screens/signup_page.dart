@@ -11,34 +11,36 @@ import '../controllers/daily_task_controller.dart';
 import '../controllers/task_controller.dart';
 import '../controllers/usercontroller.dart';
 
-class SignupPage extends StatefulWidget{
+class SignupPage extends StatefulWidget {
+  const SignupPage({super.key});
+
   @override
   State<SignupPage> createState() => _SignupPageState();
 }
 
 class _SignupPageState extends State<SignupPage> {
-  var customColors=CustomColors();
+  var customColors = const CustomColors();
 
-  final emailController=TextEditingController();
-  final passController=TextEditingController();
-  final confirmPassController=TextEditingController();
+  final emailController = TextEditingController();
+  final passController = TextEditingController();
+  final confirmPassController = TextEditingController();
 
-  final AuthService _authService=AuthService();
-  final _formKey=GlobalKey<FormState>();
-  bool _isLoading=false;
+  final AuthService _authService = AuthService();
+  final _formKey = GlobalKey<FormState>();
+  bool _isLoading = false;
 
-  void signUp() async{
-    if(_formKey.currentState!.validate()){
+  void signUp() async {
+    if (_formKey.currentState!.validate()) {
       setState(() {
-        _isLoading=true;
+        _isLoading = true;
       });
 
       String email = emailController.text.trim();
       String pass = passController.text.trim();
 
-      final user=await _authService.signUpWithEmail(email, pass);
+      final user = await _authService.signUpWithEmail(email, pass);
       setState(() {
-        _isLoading=false;
+        _isLoading = false;
       });
       if (user != null) {
         Get.offNamed('/login');
@@ -46,21 +48,19 @@ class _SignupPageState extends State<SignupPage> {
         Get.snackbar(
             'Attention', 'Signup failed. Please check your credentials.');
       }
-
     }
-
   }
 
   final TaskController taskController = Get.find<TaskController>();
   final DailyTasKController dailyTasKController =
-  Get.find<DailyTasKController>();
+      Get.find<DailyTasKController>();
   final UserController userController = Get.find<UserController>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      body:SafeArea(
+      body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
             height: MediaQuery.of(context).size.height,
@@ -78,15 +78,16 @@ class _SignupPageState extends State<SignupPage> {
                   Text(
                     'Management App',
                     style: GoogleFonts.poppins(
-                        color: CupertinoColors.systemGrey, fontWeight: FontWeight.w500),
+                        color: CupertinoColors.systemGrey,
+                        fontWeight: FontWeight.w500),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 80,
                   ),
                   Text('Create your account',
                       style: GoogleFonts.poppins(
                           fontSize: 14, fontWeight: FontWeight.w500)),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Form(
@@ -99,44 +100,56 @@ class _SignupPageState extends State<SignupPage> {
                             controller: emailController,
                             obscureText: false,
                             decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.email,color: customColors.secondaryColor,),
+                              prefixIcon: Icon(
+                                Icons.email,
+                                color: customColors.secondaryColor,
+                              ),
                               hintText: 'Email',
-                              hintStyle: TextStyle(color: Colors.grey.withOpacity(0.7),fontSize: 14,fontWeight: FontWeight.w400),
+                              hintStyle: TextStyle(
+                                  color: Colors.grey.withOpacity(0.7),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400),
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(color: Colors.grey.withOpacity(0.3))
-                              ),
-        
+                                  borderSide: BorderSide(
+                                      color: Colors.grey.withOpacity(0.3))),
                               enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(color: Colors.grey.withOpacity(0.3))
-                              ),
+                                  borderSide: BorderSide(
+                                      color: Colors.grey.withOpacity(0.3))),
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter your email';
-                              } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                              } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
+                                  .hasMatch(value)) {
                                 return 'Please enter a valid email';
                               }
                               return null;
                             },
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           TextFormField(
                             controller: passController,
                             obscureText: true,
                             decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.key,color: customColors.secondaryColor,),
+                              prefixIcon: Icon(
+                                Icons.key,
+                                color: customColors.secondaryColor,
+                              ),
                               hintText: 'Password',
-                              hintStyle: TextStyle(color: Colors.grey.withOpacity(0.7),fontSize: 14,fontWeight: FontWeight.w400),
+                              hintStyle: TextStyle(
+                                  color: Colors.grey.withOpacity(0.7),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400),
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(color: Colors.grey.withOpacity(0.3))
-                              ),
+                                  borderSide: BorderSide(
+                                      color: Colors.grey.withOpacity(0.3))),
                               enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(color: Colors.grey.withOpacity(0.3))
-                              ),
+                                  borderSide: BorderSide(
+                                      color: Colors.grey.withOpacity(0.3))),
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -147,44 +160,52 @@ class _SignupPageState extends State<SignupPage> {
                               return null;
                             },
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           TextFormField(
                             controller: confirmPassController,
                             obscureText: true,
                             decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.key,color: customColors.secondaryColor,),
+                              prefixIcon: Icon(
+                                Icons.key,
+                                color: customColors.secondaryColor,
+                              ),
                               hintText: 'Confirm Password',
-                              hintStyle: TextStyle(color: Colors.grey.withOpacity(0.7),fontSize: 14,fontWeight: FontWeight.w400),
+                              hintStyle: TextStyle(
+                                  color: Colors.grey.withOpacity(0.7),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400),
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(color: Colors.grey.withOpacity(0.3))
-                              ),
+                                  borderSide: BorderSide(
+                                      color: Colors.grey.withOpacity(0.3))),
                               enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(color: Colors.grey.withOpacity(0.3))
-                              ),
+                                  borderSide: BorderSide(
+                                      color: Colors.grey.withOpacity(0.3))),
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter your password';
-                              } else if (value!=passController.text) {
+                              } else if (value != passController.text) {
                                 return 'Passwords do not match';
                               }
                               return null;
                             },
                           ),
-        
                         ],
                       )),
-                  SizedBox(height: 10,),
-                  _isLoading ? CircularProgressIndicator() :
-                  InkWell(
-                      onTap: () {
-                        print('Hello');
-                        signUp();
-                      },
-                      child: customButton(buttonText: 'Sign Up')),
-                  SizedBox(height: 10),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  _isLoading
+                      ? const CircularProgressIndicator()
+                      : InkWell(
+                          onTap: () {
+                            print('Hello');
+                            signUp();
+                          },
+                          child: customButton(buttonText: 'Sign Up')),
+                  const SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -200,23 +221,26 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   SignInButton(
                     Buttons.google,
-                    onPressed: () async{
-                    final user= await _authService.signInwithGoogle();
-                    if (user!=null){
-                    await userController.fetchData();
-                    taskController.updateTasksBasedOnUserData(userController.userData.value);
-                    dailyTasKController.updateDailyTasksBasedOnUserData(userController.userData.value);
-                    Get.offNamed('/home');
-                    }},
+                    onPressed: () async {
+                      final user = await _authService.signInwithGoogle();
+                      if (user != null) {
+                        await userController.fetchData();
+                        taskController.updateTasksBasedOnUserData(
+                            userController.userData.value);
+                        dailyTasKController.updateDailyTasksBasedOnUserData(
+                            userController.userData.value);
+                        Get.offNamed('/home');
+                      }
+                    },
                     text: 'Sign up with Google',
                     elevation: 0.5,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5)),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   Row(
@@ -236,7 +260,6 @@ class _SignupPageState extends State<SignupPage> {
                                   color: customColors.secondaryColor)))
                     ],
                   ),
-        
                 ],
               ),
             ),

@@ -22,12 +22,12 @@ class AddTaskScreen extends StatefulWidget {
 }
 
 class _AddTaskScreenState extends State<AddTaskScreen> {
-  Task? task=Get.arguments;
+  Task? task = Get.arguments;
 
   final CustomColors customcolors = const CustomColors();
 
   DateTime endDate = DateTime.now();
-  DateTime startDate=DateTime.now();
+  DateTime startDate = DateTime.now();
 
   Future<bool?> _selectDate(BuildContext context) async {
     DateTime? pickeddate = await showDatePicker(
@@ -38,9 +38,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     if (pickeddate != null) {
       endDate = pickeddate;
       print(endDate);
-      ;
       return true;
-    }else{
+    } else {
       return null;
     }
   }
@@ -53,14 +52,16 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   bool prioritychoosen = true;
 
   void _addTodo(int todoindex) {
-    if (todoControllers.any((element) {
-      return element.text.isEmpty;
-    },)) {
+    if (todoControllers.any(
+      (element) {
+        return element.text.isEmpty;
+      },
+    )) {
       Get.showSnackbar(GetSnackBar(
         title: 'Alert',
         message: 'Fill all the todo fields to add new field',
-        duration: Duration(seconds: 2),
-        margin: EdgeInsets.all(10),
+        duration: const Duration(seconds: 2),
+        margin: const EdgeInsets.all(10),
         borderRadius: 15,
         backgroundColor: customcolors.lightBlue4,
         barBlur: 10,
@@ -87,440 +88,461 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       255,
       random.nextInt(56),
       random.nextInt(56),
-      random.nextInt(56)+100,
+      random.nextInt(56) + 100,
     );
   }
 
   RxMap<String, bool> _generateTodos() {
     RxMap<String, bool> todomap = <String, bool>{}.obs;
     for (var todo in todoControllers) {
-      if(todo.text.isNotEmpty)
-      todomap[todo.text] = false;
+      if (todo.text.isNotEmpty) {
+        todomap[todo.text] = false;
+      }
     }
     return todomap;
   }
 
-  DailyTask _createDailyTask(){
+  DailyTask _createDailyTask() {
     return DailyTask(title: titleController.text);
   }
 
   Task _createPriorityTask() {
-      RxMap<String, bool> todomap = _generateTodos();
-      return Task(title: titleController.text,
-          colors: [generateRandomColor(),generateRandomColor()],
-          deadline: endDate,
-          startDate: startDate,
-          description: descController.text,
-          todos: todomap);
-    }
+    RxMap<String, bool> todomap = _generateTodos();
+    return Task(
+        title: titleController.text,
+        colors: [generateRandomColor(), generateRandomColor()],
+        deadline: endDate,
+        startDate: startDate,
+        description: descController.text,
+        todos: todomap);
+  }
 
+  bool isSaved = false;
+  String userId = FirebaseAuth.instance.currentUser!.uid;
 
-    bool isSaved=false;
-  String userId=FirebaseAuth.instance.currentUser!.uid;
-
-
-    @override
-    void initState() {
-      super.initState();
-      if (task!=null) {
-        task !=null ? endDate =task!.deadline:endDate;
-        startDate=task!.startDate;
-        task !=null ? titleController.text=task!.title : titleController.text='';
-        task !=null ? descController.text=task!.description : descController.text='';
-        for (var todo in task!.todos!.keys) {
-          TextEditingController todocontroller=TextEditingController();
-          todoControllers.add(todocontroller);
-        }
-        todoControllers.forEach((element) {
-          element.text= task!.todos!.keys.toList()[todoControllers.indexOf(element)];
-        },);
-      }else{
-        final todocontroller = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    if (task != null) {
+      task != null ? endDate = task!.deadline : endDate;
+      startDate = task!.startDate;
+      task != null
+          ? titleController.text = task!.title
+          : titleController.text = '';
+      task != null
+          ? descController.text = task!.description
+          : descController.text = '';
+      for (var todo in task!.todos!.keys) {
+        TextEditingController todocontroller = TextEditingController();
         todoControllers.add(todocontroller);
-
       }
-
-
+      for (var element in todoControllers) {
+        element.text =
+            task!.todos!.keys.toList()[todoControllers.indexOf(element)];
       }
+    } else {
+      final todocontroller = TextEditingController();
+      todoControllers.add(todocontroller);
+    }
+  }
 
+  @override
+  Widget build(BuildContext context) {
+    final TaskController taskController = Get.find<TaskController>();
+    final DailyTasKController dailyTasKController =
+        Get.find<DailyTasKController>();
+    final UserController userController = Get.find<UserController>();
+    final themeController = Get.find<DarkModeController>();
 
-    @override
-    Widget build(BuildContext context) {
-      final TaskController taskController=Get.find<TaskController>();
-      final DailyTasKController dailyTasKController=Get.find<DailyTasKController>();
-      final UserController userController = Get.find<UserController>();
-      final themeController=Get.find<DarkModeController>();
-
-      int? taskIndex= task==null ? null : taskController.tasks.indexOf(Get.arguments);
-      return Scaffold(
-        resizeToAvoidBottomInset: true,
-        body: Stack(
-          children: [
-            Container(
-              height: double.infinity,
-              decoration: BoxDecoration(
-                color: customcolors.secondaryColor,
-              ),
+    int? taskIndex =
+        task == null ? null : taskController.tasks.indexOf(Get.arguments);
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      body: Stack(
+        children: [
+          Container(
+            height: double.infinity,
+            decoration: BoxDecoration(
+              color: customcolors.secondaryColor,
             ),
-            Column(
-              children: [
-                SizedBox(
-                  height: 50,
-                ),
-                Text(
-                  task== null ? 'Add Task' : 'Edit Task',
-                  style: GoogleFonts.poppins(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white),
-                ),
-                const SizedBox(height: 40),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Container(
-                      height: 755,
-                      padding: EdgeInsets.only(left: 30,top: 30,right: 30),
-                      decoration: BoxDecoration(
-                          color: themeController.isDarkMode.value ? Colors.black : Colors.white,
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(50),
-                              topRight: Radius.circular(50))),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment
-                                        .start,
-                                    children: [
-                                      Text(
-                                        'Start',
-                                        style: GoogleFonts.poppins(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500,
-                                            color: customcolors.secondaryColor),
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Icon(
-                                            Icons.calendar_today,
-                                            color: customcolors.secondaryColor
-                                                .withOpacity(0.4),
-                                          ),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
-                                          Text(
-                                            DateFormat('MMM d y').format(
-                                                startDate),
-                                            style: GoogleFonts.poppins(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 15,
-                                ),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment
-                                        .start,
-                                    children: [
-                                      Text(
-                                        'Ends',
-                                        style: GoogleFonts.poppins(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500,
-                                            color: customcolors.secondaryColor),
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      prioritychoosen ?
-                                      InkWell(
-                                        onTap: () async {
-                                          bool? check =
-                                          await _selectDate(context);
-                                          if (check == true) {
-                                            setState(() {});
-                                          }
-                                        },
-                                        child: Row(
-                                          children: [
-                                            Icon(
-                                              Icons.calendar_today,
-                                              color: customcolors.secondaryColor,
-                                            ),
-                                            const SizedBox(
-                                              width: 10,
-                                            ),
-                                            Text(
-                                              DateFormat('MMM d y').format(
-                                                  endDate),
-                                              style: GoogleFonts.poppins(
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w500),
-                                            ),
-                                          ],
+          ),
+          Column(
+            children: [
+              const SizedBox(
+                height: 50,
+              ),
+              Text(
+                task == null ? 'Add Task' : 'Edit Task',
+                style: GoogleFonts.poppins(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white),
+              ),
+              const SizedBox(height: 40),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Container(
+                    height: 755,
+                    padding:
+                        const EdgeInsets.only(left: 30, top: 30, right: 30),
+                    decoration: BoxDecoration(
+                        color: themeController.isDarkMode.value
+                            ? Colors.black
+                            : Colors.white,
+                        borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(50),
+                            topRight: Radius.circular(50))),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Start',
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500,
+                                          color: customcolors.secondaryColor),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.calendar_today,
+                                          color: customcolors.secondaryColor
+                                              .withOpacity(0.4),
                                         ),
-                                      ) : Row(
-                                        children: [
-                                          Icon(
-                                            Icons.calendar_today,
-                                            color: customcolors.secondaryColor.withOpacity(0.4),
-                                          ),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
-                                          Text(
-                                            DateFormat('MMM d y').format(
-                                                DateTime.now()),
-                                            style: GoogleFonts.poppins(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(
+                                          DateFormat('MMM d y')
+                                              .format(startDate),
+                                          style: GoogleFonts.poppins(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      ],
+                                    )
+                                  ],
                                 ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 30,
-                            ),
-                            Text(
-                              'Title',
-                              style: GoogleFonts.poppins(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: customcolors.secondaryColor),
-                            ),
-                            TextField(
-                              controller: titleController,
-                              autocorrect: false,
-                              enableSuggestions: false,
-                              decoration: InputDecoration(
+                              ),
+                              const SizedBox(
+                                width: 15,
+                              ),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Ends',
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500,
+                                          color: customcolors.secondaryColor),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    prioritychoosen
+                                        ? InkWell(
+                                            onTap: () async {
+                                              bool? check =
+                                                  await _selectDate(context);
+                                              if (check == true) {
+                                                setState(() {});
+                                              }
+                                            },
+                                            child: Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.calendar_today,
+                                                  color: customcolors
+                                                      .secondaryColor,
+                                                ),
+                                                const SizedBox(
+                                                  width: 10,
+                                                ),
+                                                Text(
+                                                  DateFormat('MMM d y')
+                                                      .format(endDate),
+                                                  style: GoogleFonts.poppins(
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        : Row(
+                                            children: [
+                                              Icon(
+                                                Icons.calendar_today,
+                                                color: customcolors
+                                                    .secondaryColor
+                                                    .withOpacity(0.4),
+                                              ),
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                              Text(
+                                                DateFormat('MMM d y')
+                                                    .format(DateTime.now()),
+                                                style: GoogleFonts.poppins(
+                                                    fontSize: 12,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                            ],
+                                          )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          Text(
+                            'Title',
+                            style: GoogleFonts.poppins(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: customcolors.secondaryColor),
+                          ),
+                          TextField(
+                            controller: titleController,
+                            autocorrect: false,
+                            enableSuggestions: false,
+                            decoration: InputDecoration(
                                 hintText: 'Title here',
                                 hintStyle: TextStyle(
                                     color: Colors.grey.shade500,
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400),
-                                border: InputBorder.none
-                              ),
-                              style: GoogleFonts.poppins(
-                                fontSize: 14,
-                              ),
-                              autofocus: task==null ? true :false,
+                                border: InputBorder.none),
+                            style: GoogleFonts.poppins(
+                              fontSize: 14,
                             ),
-                            const SizedBox(
-                              height: 30,
-                            ),
-                            Text(
-                              'Category',
-                              style: GoogleFonts.poppins(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: customcolors.secondaryColor),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        prioritychoosen = true;
-                                      });
-                                    },
-                                    child: Container(
-                                      height: 50,
-                                      width: 160,
-                                      decoration: BoxDecoration(
-                                          color: prioritychoosen
-                                              ? customcolors.secondaryColor
-                                              : Colors.white,
-                                          borderRadius:
-                                          BorderRadius.circular(10)),
-                                      child: Center(
-                                        child: Text(
-                                          'Prioriy Task',
-                                          style: GoogleFonts.poppins(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500,
-                                              color: !prioritychoosen
-                                                  ? customcolors.secondaryColor
-                                                  : Colors.white),
-                                        ),
+                            autofocus: task == null ? true : false,
+                          ),
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          Text(
+                            'Category',
+                            style: GoogleFonts.poppins(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: customcolors.secondaryColor),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      prioritychoosen = true;
+                                    });
+                                  },
+                                  child: Container(
+                                    height: 50,
+                                    width: 160,
+                                    decoration: BoxDecoration(
+                                        color: prioritychoosen
+                                            ? customcolors.secondaryColor
+                                            : Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: Center(
+                                      child: Text(
+                                        'Prioriy Task',
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                            color: !prioritychoosen
+                                                ? customcolors.secondaryColor
+                                                : Colors.white),
                                       ),
                                     ),
                                   ),
                                 ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Expanded(
-                                  child: InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        prioritychoosen = false;
-                                      });
-                                    },
-                                    child: Container(
-                                      height: 50,
-                                      width: 160,
-                                      decoration: BoxDecoration(
-                                          color: !prioritychoosen
-                                              ? customcolors.secondaryColor
-                                              : Colors.white,
-                                          borderRadius:
-                                          BorderRadius.circular(10)),
-                                      child: Center(
-                                        child: Text(
-                                          'Daily Task',
-                                          style: GoogleFonts.poppins(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500,
-                                              color: prioritychoosen
-                                                  ? customcolors.secondaryColor
-                                                  : Colors.white),
-                                        ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      prioritychoosen = false;
+                                    });
+                                  },
+                                  child: Container(
+                                    height: 50,
+                                    width: 160,
+                                    decoration: BoxDecoration(
+                                        color: !prioritychoosen
+                                            ? customcolors.secondaryColor
+                                            : Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: Center(
+                                      child: Text(
+                                        'Daily Task',
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                            color: prioritychoosen
+                                                ? customcolors.secondaryColor
+                                                : Colors.white),
                                       ),
                                     ),
                                   ),
-                                )
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 30,
-                            ),
-                            Text(
-                              'Description',
-                              style: GoogleFonts.poppins(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: customcolors.secondaryColor),
-                            ),
-                            TextField(
-                              controller: descController,
-                              autocorrect: false,
-                              enableSuggestions: false,
-                              decoration: InputDecoration(
+                                ),
+                              )
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          Text(
+                            'Description',
+                            style: GoogleFonts.poppins(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: customcolors.secondaryColor),
+                          ),
+                          TextField(
+                            controller: descController,
+                            autocorrect: false,
+                            enableSuggestions: false,
+                            decoration: InputDecoration(
                                 hintText: 'Description here',
                                 hintStyle: TextStyle(
                                     color: Colors.grey.shade500,
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400),
-                                border: InputBorder.none
-                              ),
-                              style: GoogleFonts.poppins(
-                                fontSize: 14,
-                              ),
-                              maxLines: 5,
-                              minLines: 5,
-                              textInputAction: TextInputAction.done,
-                              autofocus: task==null ? true :false,
+                                border: InputBorder.none),
+                            style: GoogleFonts.poppins(
+                              fontSize: 14,
                             ),
-                            const SizedBox(
-                              height: 30,
-                            ),
-                            !prioritychoosen ? const SizedBox.shrink() : Text(
-                              'To Do list',
-                              style: GoogleFonts.poppins(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: customcolors.secondaryColor),
-                            ),
-                            !prioritychoosen ? const SizedBox.shrink() : ListView
-                                .builder(
-                              shrinkWrap: true,
-                              padding: EdgeInsets.zero,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemCount: todoControllers.length,
-                              itemBuilder: (context, index) {
-                                return Row(
-                                  children: [
-                                    Expanded(
-                                      child: TextField(
-                                        controller: todoControllers[index],
-                                        autocorrect: false,
-                                        enableSuggestions: false,
-                                        decoration: InputDecoration(
-                                          hintText: 'Add new to do',
-                                          hintStyle: TextStyle(
-                                              color: Colors.grey.shade500,
+                            maxLines: 5,
+                            minLines: 5,
+                            textInputAction: TextInputAction.done,
+                            autofocus: task == null ? true : false,
+                          ),
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          !prioritychoosen
+                              ? const SizedBox.shrink()
+                              : Text(
+                                  'To Do list',
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                      color: customcolors.secondaryColor),
+                                ),
+                          !prioritychoosen
+                              ? const SizedBox.shrink()
+                              : ListView.builder(
+                                  shrinkWrap: true,
+                                  padding: EdgeInsets.zero,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: todoControllers.length,
+                                  itemBuilder: (context, index) {
+                                    return Row(
+                                      children: [
+                                        Expanded(
+                                          child: TextField(
+                                            controller: todoControllers[index],
+                                            autocorrect: false,
+                                            enableSuggestions: false,
+                                            decoration: InputDecoration(
+                                                hintText: 'Add new to do',
+                                                hintStyle: TextStyle(
+                                                    color: Colors.grey.shade500,
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.w400),
+                                                border: InputBorder.none),
+                                            style: GoogleFonts.poppins(
                                               fontSize: 14,
-                                              fontWeight: FontWeight.w400),
-                                          border: InputBorder.none
+                                            ),
+                                            autofocus: true,
+                                          ),
                                         ),
+                                        IconButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                _removeTodo(index);
+                                              });
+                                            },
+                                            icon: Icon(
+                                              Icons.delete,
+                                              color: customcolors.lightBlue5,
+                                            ))
+                                      ],
+                                    );
+                                  },
+                                ),
+                          !prioritychoosen
+                              ? const SizedBox.shrink()
+                              : const SizedBox(
+                                  height: 15,
+                                ),
+                          !prioritychoosen
+                              ? const SizedBox.shrink()
+                              : InkWell(
+                                  onTap: () {
+                                    _addTodo(todoControllers.length - 1);
+                                    setState(() {});
+                                  },
+                                  child: Container(
+                                    height: 50,
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                        color: customcolors.secondaryColor,
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: Center(
+                                      child: Text(
+                                        'Add To do',
                                         style: GoogleFonts.poppins(
-                                          fontSize: 14,
-                                        ),
-                                        autofocus: true,
+                                            fontSize: 14,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w700),
                                       ),
                                     ),
-                                    IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            _removeTodo(index);
-                                          });
-                                        },
-                                        icon: Icon(
-                                          Icons.delete,
-                                          color: customcolors.lightBlue5,
-                                        ))
-                                  ],
-                                );
-                              },
-                            ),
-                            !prioritychoosen ? const SizedBox.shrink() : const SizedBox(
-                              height: 15,
-                            ),
-                            !prioritychoosen ? const SizedBox.shrink() : InkWell(
-                              onTap: () {
-                                _addTodo(todoControllers.length - 1);
-                                setState(() {});
-                              },
-                              child: Container(
-                                height: 50,
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                    color: customcolors.secondaryColor,
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: Center(
-                                  child: Text(
-                                    'Add To do',
-                                    style: GoogleFonts.poppins(
-                                        fontSize: 14,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w700),
                                   ),
                                 ),
-                              ),
-                            ),
-                            const SizedBox(height: 20,),
-                            Row(children: [
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            children: [
                               Expanded(
                                 child: InkWell(
                                   onTap: () => Get.back(),
                                   child: Container(
                                     height: 50,
                                     decoration: BoxDecoration(
-                                        border: const Border.fromBorderSide(BorderSide(width: 1)),
-                                        borderRadius: BorderRadius.circular(10)),
+                                        border: const Border.fromBorderSide(
+                                            BorderSide(width: 1)),
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
                                     child: Center(
                                       child: Text(
                                         'Cancel',
@@ -533,53 +555,59 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 10,),
+                              const SizedBox(
+                                width: 10,
+                              ),
                               Expanded(
                                 child: InkWell(
                                   onTap: () {
-
-                                    if(prioritychoosen && (titleController.text.isNotEmpty || descController.text.isNotEmpty)){
-                                      Task prioritytask=_createPriorityTask();
-                                      if(task!=null){
-                                        taskController.updateTask(taskIndex!, prioritytask);
-                                        Get.offNamed('/detailsscreen',arguments: taskIndex);
-                                      } else{
+                                    if (prioritychoosen &&
+                                        (titleController.text.isNotEmpty ||
+                                            descController.text.isNotEmpty)) {
+                                      Task prioritytask = _createPriorityTask();
+                                      if (task != null) {
+                                        taskController.updateTask(
+                                            taskIndex!, prioritytask);
+                                        Get.offNamed('/detailsscreen',
+                                            arguments: taskIndex);
+                                      } else {
                                         taskController.addTask(prioritytask);
                                         Get.back();
                                       }
                                       userController.uploadData(userId);
-                                      isSaved=true;
-
-                                    }
-                                    else if(!prioritychoosen&&titleController.text.isNotEmpty){
-                                      DailyTask dtask=_createDailyTask();
+                                      isSaved = true;
+                                    } else if (!prioritychoosen &&
+                                        titleController.text.isNotEmpty) {
+                                      DailyTask dtask = _createDailyTask();
                                       dailyTasKController.addDailyTask(dtask);
                                       Get.back();
                                       userController.uploadData(userId);
-                                    } else{
+                                    } else {
                                       Get.showSnackbar(GetSnackBar(
                                         title: 'Alert',
-                                        message: 'Title or Description must be inserted.',
-                                        duration: Duration(seconds: 2),
-                                        margin: EdgeInsets.all(10),
+                                        message:
+                                            'Title or Description must be inserted.',
+                                        duration: const Duration(seconds: 2),
+                                        margin: const EdgeInsets.all(10),
                                         borderRadius: 15,
-                                        backgroundColor: customcolors.lightBlue4,
+                                        backgroundColor:
+                                            customcolors.lightBlue4,
                                         barBlur: 10,
-                                        dismissDirection: DismissDirection.vertical,
+                                        dismissDirection:
+                                            DismissDirection.vertical,
                                         snackPosition: SnackPosition.TOP,
                                       ));
-
                                     }
-
                                   },
                                   child: Container(
                                     height: 50,
                                     decoration: BoxDecoration(
                                         color: customcolors.secondaryColor,
-                                        borderRadius: BorderRadius.circular(10)),
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
                                     child: Center(
                                       child: Text(
-                                        task==null ? 'Save' : 'Update',
+                                        task == null ? 'Save' : 'Update',
                                         style: GoogleFonts.poppins(
                                             fontSize: 14,
                                             color: Colors.white,
@@ -589,19 +617,19 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                   ),
                                 ),
                               ),
-                            ],),
-                            const SizedBox(height: 20)
-                          ],
-
-                        ),
+                            ],
+                          ),
+                          const SizedBox(height: 20)
+                        ],
                       ),
                     ),
                   ),
                 ),
-              ],
-            )
-          ],
-        ),
-      );
-    } }
-
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+}
