@@ -1,16 +1,53 @@
-# todo_app
+# TaskMaster - Flutter Todo App
 
-A new Flutter project.
+A modern task management application built with Flutter and Firebase, featuring a robust authentication system and intuitive task organization.
 
-## Getting Started
+## ✨ Features
 
-This project is a starting point for a Flutter application.
+### Authentication
+- 🔐 Multiple Sign-in Options
+  - Google Sign-in
+  - Email/Password Authentication
+- 📧 Email Verification System
+- 🔑 Password Reset Functionality
+- 👤 User Profile Management
 
-A few resources to get you started if this is your first Flutter project:
+### Task Management
+- ✏️ Task Operations
+  - Create and Edit Tasks
+  - Delete Tasks
+  - Mark Tasks as Complete
+- 📋 Task Organization
+  - Task Categories
+  - Priority Levels
+  - Due Dates
+- 🔄 Real-time Updates
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### Calendar Features
+- 📅 Calendar Integration
+- 📊 Daily Task Overview
+- 🗓️ Task Planning
+- 📈 Progress Tracking
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### UI/UX
+- 🎨 Custom Color Schemes
+- 📱 Responsive Design
+- 🌈 Modern UI Elements
+- ⚡ Smooth Animations
+
+## 🛠️ Technical Stack
+
+### Frontend
+- Flutter SDK
+- GetX State Management
+- Custom UI Components
+
+### Backend Services
+- Firebase Authentication
+- Cloud Firestore
+- Google Sign-In API
+
+## 📦 Dependencies
+
+## 📁 Project Structure
+
